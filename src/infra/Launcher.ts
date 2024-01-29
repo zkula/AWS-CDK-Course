@@ -5,6 +5,7 @@ import { ApiStack } from './stacks/ApiStack';
 import { AuthStack } from './stacks/AuthStack';
 import { UiDeploymentStack } from './stacks/UiDeploymentStack';
 import { MonitorStack } from './stacks/MonitorStack';
+import { CicdStack } from './stacks/CicdStack';
 
 const app = new App();
 const dataStack = new DataStack(app, 'DataStack');
@@ -20,3 +21,6 @@ new ApiStack(app, 'ApiStack', {
 });
 new UiDeploymentStack(app, 'UiDeploymentStack');
 new MonitorStack(app, 'MonitorStack');
+new CicdStack(app, 'CicdStack');
+
+app.synth();

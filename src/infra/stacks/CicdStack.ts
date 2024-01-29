@@ -9,7 +9,7 @@ export class CicdStack extends Stack {
     new CodePipeline(this, 'AwesomePipeline', {
       pipelineName: 'AwesomePipeline',
       synth: new ShellStep('Synth', {
-        input: CodePipelineSource.gitHub('https://github.com/zkula/AWS-CDK-Course.git', 'main'),
+        input: CodePipelineSource.gitHub('zkula/AWS-CDK-Course', 'main'),
         commands: ['npm ci', 'npx cdk synth'],
       }),
     });
