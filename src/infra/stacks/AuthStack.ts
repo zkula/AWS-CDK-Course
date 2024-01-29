@@ -6,17 +6,13 @@ import {
   UserPool,
   UserPoolClient,
 } from 'aws-cdk-lib/aws-cognito';
-import {
-  Effect,
-  FederatedPrincipal,
-  PolicyStatement,
-  Role,
-} from 'aws-cdk-lib/aws-iam';
+import { Effect, FederatedPrincipal, PolicyStatement, Role } from 'aws-cdk-lib/aws-iam';
 import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
 
 interface AuthStackProps extends StackProps {
   photosBucket: IBucket;
+  stageName: string;
 }
 
 export class AuthStack extends Stack {
@@ -106,24 +102,20 @@ export class AuthStack extends Stack {
         'sts:AssumeRoleWithWebIdentity'
       ),
     });
-    this.unAuthenticatedRole = new Role(
-      this,
-      'CognitoDefaultUnauthenticatedRole',
-      {
-        assumedBy: new FederatedPrincipal(
-          'cognito-identity.amazonaws.com',
-          {
-            StringEquals: {
-              'cognito-identity.amazonaws.com:aud': this.identityPool.ref,
-            },
-            'ForAnyValue:StringLike': {
-              'cognito-identity.amazonaws.com:amr': 'unauthenticated',
-            },
+    this.unAuthenticatedRole = new Role(this, 'CognitoDefaultUnauthenticatedRole', {
+      assumedBy: new FederatedPrincipal(
+        'cognito-identity.amazonaws.com',
+        {
+          StringEquals: {
+            'cognito-identity.amazonaws.com:aud': this.identityPool.ref,
           },
-          'sts:AssumeRoleWithWebIdentity'
-        ),
-      }
-    );
+          'ForAnyValue:StringLike': {
+            'cognito-identity.amazonaws.com:amr': 'unauthenticated',
+          },
+        },
+        'sts:AssumeRoleWithWebIdentity'
+      ),
+    });
     this.adminRole = new Role(this, 'CognitoAdminRole', {
       assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',

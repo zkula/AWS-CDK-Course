@@ -9,6 +9,7 @@ import { join } from 'path';
 
 interface LambdaStackProps extends StackProps {
   spacesTable: ITable;
+  stageName: string;
 }
 
 export class LambdaStack extends Stack {

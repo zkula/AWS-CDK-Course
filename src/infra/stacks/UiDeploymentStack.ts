@@ -8,8 +8,11 @@ import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Distribution, OriginAccessIdentity } from 'aws-cdk-lib/aws-cloudfront';
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 
+interface UiDeploymentStackProps extends StackProps {
+  stageName: string;
+}
 export class UiDeploymentStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: UiDeploymentStackProps) {
     super(scope, id, props);
 
     const suffix = getSuffixFromStack(this);
@@ -19,15 +22,7 @@ export class UiDeploymentStack extends Stack {
       bucketName: `space-finder-frontend-${suffix}`,
     });
 
-    const uiDir = join(
-      __dirname,
-      '..',
-      '..',
-      '..',
-      '..',
-      'space-finder-frontend',
-      'dist'
-    );
+    const uiDir = join(__dirname, '..', '..', '..', '..', 'space-finder-frontend', 'dist');
 
     if (!existsSync(uiDir)) {
       console.warn('Ui dir not found: ' + uiDir);
@@ -40,10 +35,7 @@ export class UiDeploymentStack extends Stack {
       sources: [Source.asset(uiDir)],
     });
 
-    const originIdentity = new OriginAccessIdentity(
-      this,
-      'OriginAccessIdentity'
-    );
+    const originIdentity = new OriginAccessIdentity(this, 'OriginAccessIdentity');
     deploymentBucket.grantRead(originIdentity);
 
     const distribution = new Distribution(this, 'SpacesFinderDistribution', {

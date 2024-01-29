@@ -8,19 +8,6 @@ import { MonitorStack } from './stacks/MonitorStack';
 import { CicdStack } from './stacks/CicdStack';
 
 const app = new App();
-const dataStack = new DataStack(app, 'DataStack');
-const lambdaStack = new LambdaStack(app, 'LambdaStack', {
-  spacesTable: dataStack.spacesTable,
-});
-const authStack = new AuthStack(app, 'AuthStack', {
-  photosBucket: dataStack.photosBucket,
-});
-new ApiStack(app, 'ApiStack', {
-  spacesLambdaIntegration: lambdaStack.spacesLambdaIntegration,
-  userPool: authStack.userPool,
-});
-new UiDeploymentStack(app, 'UiDeploymentStack');
-new MonitorStack(app, 'MonitorStack');
 new CicdStack(app, 'CicdStack');
 
 app.synth();

@@ -6,8 +6,11 @@ import { Topic } from 'aws-cdk-lib/aws-sns';
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
 import { SnsAction } from 'aws-cdk-lib/aws-cloudwatch-actions';
 
+interface MonitorStackProps extends StackProps {
+  stageName: string;
+}
 export class MonitorStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: MonitorStackProps) {
     super(scope, id, props);
 
     const suffix = getSuffixFromStack(this);
