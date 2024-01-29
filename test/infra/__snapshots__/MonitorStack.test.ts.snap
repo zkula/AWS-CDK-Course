@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Monitor Stack Tests CloudWatch Alarm snapshot 1`] = `
+{
+  "spacesApi4xxAlarmA15E009C": {
+    "Properties": {
+      "AlarmActions": [
+        {
+          "Ref": "AlarmTopicD01E77F9",
+        },
+      ],
+      "AlarmName": "SpacesApi4xxAlarm",
+      "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+      "Dimensions": [
+        {
+          "Name": "ApiName",
+          "Value": "SpacesApi",
+        },
+      ],
+      "EvaluationPeriods": 1,
+      "MetricName": "4XXError",
+      "Namespace": "AWS/ApiGateway",
+      "Period": 60,
+      "Statistic": "Sum",
+      "Threshold": 5,
+      "Unit": "Count",
+    },
+    "Type": "AWS::CloudWatch::Alarm",
+  },
+}
+`;
+
+exports[`Monitor Stack Tests SnsTopic snapshot 1`] = `
+{
+  "AlarmTopicD01E77F9": {
+    "Properties": {
+      "DisplayName": "AlarmTopic",
+      "TopicName": "AlarmTopic",
+    },
+    "Type": "AWS::SNS::Topic",
+  },
+}
+`;
